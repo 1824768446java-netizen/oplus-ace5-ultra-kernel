@@ -280,7 +280,7 @@ jobs:
             sed -i '$s|echo "\$res"|echo "-${{ github.event.inputs.ANDROID_VERSION }}-oki-xiaoxiaow"|' kernel_platform/msm-kernel/scripts/setlocalversion
             sed -i '$s|echo "\$res"|echo "-${{ github.event.inputs.ANDROID_VERSION }}-oki-xiaoxiaow"|' kernel_platform/external/dtc/scripts/setlocalversion
           else
-            ESCAPED_SUFFIX=$(printf '%s\n' "-${{ github.event.inputs.ANDROID_VERSION }}-oki-xiaoxiaow" | sed 's:[\/&]:\\&:g')
+            ESCAPED_SUFFIX=$(printf '%s\n' "-android15-8-ge58033dc8ea6-abogki498046332-4k" | sed 's:[\/&]:\\&:g')
             sudo sed -i "s/-4k/$ESCAPED_SUFFIX/g" kernel_platform/common/arch/arm64/configs/gki_defconfig
             sed -i 's/${scm_version}//' kernel_platform/common/scripts/setlocalversion
             sed -i 's/${scm_version}//' kernel_platform/msm-kernel/scripts/setlocalversion
@@ -637,8 +637,8 @@ jobs:
         if: ${{ github.event.inputs.BAZEL == 'Off' }}
         run: |
           echo "🏗️ 开始内核编译..."
-          export KBUILD_BUILD_USER="xiaoxiaow"
-          export KBUILD_BUILD_HOST="xiaoxiaow_build"
+          export KBUILD_BUILD_USER="kleaf"
+          export KBUILD_BUILD_HOST="build-host"
 
           if [ "${{ github.event.inputs.KERNEL_VERSION }}" == "6.1" ]; then
             export KBUILD_BUILD_TIMESTAMP="Tue Mar 10 03:53:33 UTC 2026"
@@ -651,6 +651,8 @@ jobs:
 
           elif [ "${{ github.event.inputs.KERNEL_VERSION }}" == "6.6" ]; then
             export PATH="/usr/lib/ccache:$GITHUB_WORKSPACE/kernel_workspace/kernel_platform/prebuilts/clang/host/linux-x86/clang-r510928/bin:$PATH" 
+            export KBUILD_BUILD_TIMESTAMP="Sun Mar 29 12:31:26 UTC 2026"
+            export KBUILD_BUILD_VERSION=1
             export PATH="/usr/lib/ccache:$PATH"
             sudo apt install libelf-dev
             cd kernel_workspace/kernel_platform/common
@@ -678,8 +680,8 @@ jobs:
         if: ${{ github.event.inputs.BAZEL == 'On' }}
         run: |
           echo "🏗️ 开始内核编译 (Bazel)..."
-          export KBUILD_BUILD_USER="xiaoxiaow"
-          export KBUILD_BUILD_HOST="xiaoxiaow_build"
+          export KBUILD_BUILD_USER="kleaf"
+          export KBUILD_BUILD_HOST="build-host"
 
           cd kernel_workspace
           if [ "${{ github.event.inputs.KERNEL_VERSION }}" == "6.1" ]; then
